@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% if editing %}{% set page_title = "Edit Product" %}{% else %}{% set page_title = "Add New Product" %}{% endif %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+  <a href="{{ request.referrer or url_for('feed') }}">&larr; Back</a>
+  <h1>{{ page_title }}</h1>
+  <form class="form" method="post">
+    <input class="input" name="title" placeholder="Product Title" value="{{ (product.title if product else '') }}" required>
+    <div class="row">
+      <select class="input" name="category" required>
+        {% for c in categories %}
+          {% if product and product.category == c %}
+            <option value="{{ c }}" selected>{{ c }}</option>
+          {% else %}
+            <option value="{{ c }}">{{ c }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+      <input class="input" name="price" type="number" min="0" step="0.01" placeholder="Price" value="{{ (product.price if product else '') }}" required>
+    </div>
+    <textarea class="input" name="description" rows="5" placeholder="Description">{{ (product.description if product else '') }}</textarea>
+    <div class="row">
+      <input class="input" name="image_url" placeholder="Image URL (optional)" value="{{ (product.image_url if product else '') }}">
+      <button class="btn secondary" type="button" onclick="alert('For now, this uses a placeholder or your Image URL input.')">+ Add Image (Placeholder)</button>
+    </div>
+    <div class="row" style="justify-content:flex-end">
+      <button class="btn success">{% if editing %}Save Changes{% else %}Submit Listing{% endif %}</button>
+    </div>
+  </form>
+{% endblock %}

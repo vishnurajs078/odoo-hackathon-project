@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% block title %}User Dashboard{% endblock %}
+{% block content %}
+  <h1>User Dashboard</h1>
+  <div class="row" style="align-items:flex-start">
+    <div class="card" style="max-width:280px">
+      <img src="{{ user.avatar_url }}" alt="" style="width:100%;height:220px;object-fit:cover;border-radius:12px">
+      <h3 style="margin:8px 0 0 0">{{ user.name }}</h3>
+      <div class="badge">{{ user.email }}</div>
+    </div>
+    <div class="card" style="flex:1">
+      <form class="form" method="post">
+        <div class="row">
+          <input class="input" name="name" placeholder="Full Name" value="{{ user.name }}">
+          <input class="input" name="phone" placeholder="Phone" value="{{ user.phone }}">
+        </div>
+        <input class="input" name="address" placeholder="Address" value="{{ user.address }}">
+        <input class="input" name="avatar_url" placeholder="Avatar Image URL" value="{{ user.avatar_url }}">
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn success">Save Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

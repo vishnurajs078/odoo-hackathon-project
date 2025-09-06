@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+{% block title %}{{ product.title }}{% endblock %}
+{% block content %}
+  <a href="{{ request.referrer or url_for('feed') }}">&larr; Back</a>
+  <div class="row" style="gap:20px;align-items:flex-start;margin-top:10px">
+    <div class="card" style="flex:1">
+      <img src="{{ product.image_url }}" style="height:320px">
+    </div>
+    <div class="card" style="flex:1">
+      <h1 style="margin-top:0">{{ product.title }}</h1>
+      <div class="badge">{{ product.category }}</div>
+      <p class="price" style="font-size:22px;margin:6px 0">$ {{ '%.2f'|format(product.price) }}</p>
+      <p>{{ product.description }}</p>
+      {% if current_user %}
+        <a class="btn" href="{{ url_for('cart_add', product_id=product.id) }}">Add to Cart</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('login', next=request.path) }}">Login to add to cart</a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

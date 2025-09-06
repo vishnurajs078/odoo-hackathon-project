@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+{% block title %}My Listings{% endblock %}
+{% block content %}
+  <div class="row" style="align-items:center;margin-bottom:14px">
+    <h1 style="flex:1">My Listings</h1>
+    <a class="btn success" href="{{ url_for('add_product') }}">+ Add Product</a>
+  </div>
+
+  {% if products %}
+  <div class="grid">
+    {% for p in products %}
+      <div class="card">
+        <img src="{{ p.image_url }}" alt="">
+        <h3>{{ p.title }}</h3>
+        <div class="badge">{{ p.category }}</div>
+        <div class="price">$ {{ '%.2f'|format(p.price) }}</div>
+        <div class="row">
+          <a class="btn secondary" href="{{ url_for('edit_product', product_id=p.id) }}">Edit</a>
+          <form method="post" action="{{ url_for('delete_product', product_id=p.id) }}" onsubmit="confirmDelete(event, 'Delete this listing?')">
+            <button class="btn danger" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>You have no listings yet.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+
+{% extends "base.html" %}
+{% block title %}Previous Purchases{% endblock %}
+{% block content %}
+  <h1>Previous Purchases</h1>
+  {% if purchases %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Purchased At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in purchases %}
+          <tr>
+            <td><a href="{{ url_for('product_detail', product_id=p.product.id) }}">{{ p.product.title }}</a></td>
+            <td>{{ p.product.category }}</td>
+            <td>$ {{ '%.2f'|format(p.price_at_purchase) }}</td>
+            <td>{{ p.purchased_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No previous purchases yet.</p>
+  {% endif %}
+{% endblock %}

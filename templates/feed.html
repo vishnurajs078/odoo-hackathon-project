@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+{% block title %}Product Feed{% endblock %}
+{% block content %}
+  <div class="row" style="align-items:center;margin-bottom:14px">
+    <form class="searchbar" method="get" style="flex:1">
+      <input class="input" type="search" name="q" placeholder="Search products..." value="{{ q or '' }}">
+      <select name="category" class="input" style="max-width:220px">
+        <option value="">All Categories</option>
+        {% for c in categories %}
+          <option value="{{ c }}" {% if selected_category == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn">Search</button>
+    </form>
+    {% if current_user %}
+    <a class="btn success" href="{{ url_for('add_product') }}">+ Add Product</a>
+    {% endif %}
+  </div>
+
+  {% if products %}
+  <div class="grid">
+    {% for p in products %}
+      <div class="card">
+        <img src="{{ p.image_url }}" alt="">
+        <div class="badge">{{ p.category }}</div>
+        <h3>{{ p.title }}</h3>
+        <div class="price">$ {{ '%.2f'|format(p.price) }}</div>
+        <div class="row">
+          <a class="btn secondary" href="{{ url_for('product_detail', product_id=p.id) }}">View</a>
+          {% if current_user %}
+            <a class="btn" href="{{ url_for('cart_add', product_id=p.id) }}">Add to Cart</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>No products found.</p>
+  {% endif %}
+{% endblock %}
