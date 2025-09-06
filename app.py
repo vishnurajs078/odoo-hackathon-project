@@ -3,14 +3,16 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
 
 
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+DB_DIR = os.path.join(BASE_DIR, "database")
+db_path = os.path.join(DB_DIR, "data.sqlite")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'our-secret-key'
-app.config['SQLALCHEMY_DATABASE_URI'] = '''
-postgresql://mini_market_db_xjm2_user:6HDum5cB1P3IlFyqv2RcRD2TFeXCWpp
-T@dpg-d2tveker433s73dq2kt0-a.singapore-postgres.render.com/mini_market_db_xjm2'''
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
